@@ -59,7 +59,7 @@ include('layout/admin/user_session_data.php');
                                                                     <div class="form-group row">
                                                                         <label for="staticEmail" class="col-sm-3 col-form-label">Car plate:</label>
                                                                         <div class="col-sm-6">
-                                                                            <input type="text" style="text-transform: uppercase" class="form-control" id="txtCarPlate<?php echo $id_map;?>">
+                                                                            <input type="text" style="text-transform: uppercase" class="form-control" id="carPlate<?php echo $id_map;?>">
                                                                         </div>
                                                                         <div class="col-sm-3">
                                                                             <button class="btn btn-primary" id="btnSearchClient<?php echo $id_map;?>" type="button">
@@ -70,10 +70,10 @@ include('layout/admin/user_session_data.php');
                                                                             </button>
                                                                             <script>
                                                                                 $('#btnSearchClient<?php echo $id_map;?>').click(function() {
-                                                                                    var car_plate = $('#txtCarPlate<?php echo $id_map;?>').val();
+                                                                                    var car_plate = $('#carPlate<?php echo $id_map;?>').val();
                                                                                     if (car_plate == "") {
                                                                                         alert('You must enter car plate field');
-                                                                                        $('#txtCarPlate<?php echo $id_map;?>').focus();
+                                                                                        $('#carPlate<?php echo $id_map;?>').focus();
                                                                                     }else{
                                                                                         var url = 'clients/controller_search_clients.php';
                                                                                         $.get(url, {car_plate:car_plate}, function (datos) {
@@ -96,7 +96,7 @@ include('layout/admin/user_session_data.php');
                                                                             $month = date('m');
                                                                             $year = date('Y');
                                                                             ?>
-                                                                            <input type="date" class="form-control" value="<?php echo $year."-".$month."-".$day?>">
+                                                                            <input type="date" class="form-control" id="dateEntry<?php echo $id_map;?>" value="<?php echo $year."-".$month."-".$day?>">
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-group row">
@@ -108,14 +108,33 @@ include('layout/admin/user_session_data.php');
                                                                             $hour = date('H');
                                                                             $minute = date('i');
                                                                             ?>
-                                                                            <input type="time" class="form-control" value="<?php echo $hour.":".$minute?>">
+                                                                            <input type="time" class="form-control" id="timeEntry<?php echo $id_map;?>" value="<?php echo $hour.":".$minute?>">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="form-group row">
+                                                                        <label for="staticEmail" class="col-sm-3 col-form-label">Spot Number:</label>
+                                                                        <div class="col-sm-9">
+                                                                            <input type="text" class="form-control" id="spot<?php echo $id_map;?>" value="<?php echo $num_spot?>" readonly>
                                                                         </div>
                                                                     </div>
                                                                 </form>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                                    <button type="button" class="btn btn-primary">Print ticket</button>
+                                                                    <button type="button" class="btn btn-primary" id="btnPrintTicket<?php echo $id_map?>">Print ticket</button>
+                                                                    <script>
+                                                                        $('#btnPrintTicket<?php echo $id_map?>').click(function () {
+                                                                            var car_plate = $('#carPlate<?php echo $id_map;?>').val();
+                                                                            var c_name = $('#c_name<?php echo $id_map;?>').val();
+                                                                            var c_tin = $('#c_tin<?php echo $id_map;?>').val();
+                                                                            var e_date = $('#dateEntry<?php echo $id_map;?>').val();
+                                                                            var e_time = $('#timeEntry<?php echo $id_map;?>').val();
+                                                                            var s_number = $('#spot<?php echo $id_map?>').val();
+
+                                                                            alert(car_plate+' - '+s_number);
+                                                                        });
+                                                                    </script>
                                                                 </div>
                                                             </div>
                                                         </div>

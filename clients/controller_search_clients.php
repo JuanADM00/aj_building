@@ -22,13 +22,13 @@ if ($nombre_client == "") {
     <div class="form-group row">
         <label for="staticEmail" class="col-sm-3 col-form-label">Client Name:</label>
         <div class="col-sm-9">
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" id="c_name<?php echo $id_map;?>">
         </div>
     </div>
     <div class="form-group row">
         <label for="staticEmail" class="col-sm-3 col-form-label">TIN:</label>
         <div class="col-sm-9">
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" id="c_tin<?php echo $id_map;?>">
         </div>
     </div>
     <?php
@@ -37,13 +37,13 @@ if ($nombre_client == "") {
     <div class="form-group row">
         <label for="staticEmail" class="col-sm-3 col-form-label">Client Name:</label>
         <div class="col-sm-9">
-            <input type="text" class="form-control" value="<?php echo $nombre_client?>" readonly>
+            <input type="text" class="form-control"  id="c_name<?php echo $id_map;?>" value="<?php echo $nombre_client?>" readonly>
         </div>
     </div>
     <div class="form-group row">
         <label for="staticEmail" class="col-sm-3 col-form-label">TIN:</label>
         <div class="col-sm-9">
-            <input type="text" class="form-control" value="<?php echo $nit_client?>" readonly>
+            <input type="text" class="form-control" id="c_tin<?php echo $id_map;?>" value="<?php echo $nit_client?>" readonly>
         </div>
     </div>
     <?php
