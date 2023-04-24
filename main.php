@@ -57,7 +57,7 @@ include('layout/admin/user_session_data.php');
                                                                 <div class="modal-body">
                                                                 <form>
                                                                     <div class="form-group row">
-                                                                        <label for="staticEmail" class="col-sm-3 col-form-label">Car plate:</label>
+                                                                        <label for="staticEmail" class="col-sm-3 col-form-label">Car plate: <span><b style="color: red">*</b></span></label>
                                                                         <div class="col-sm-6">
                                                                             <input type="text" style="text-transform: uppercase" class="form-control" id="carPlate<?php echo $id_map;?>">
                                                                         </div>
@@ -71,12 +71,13 @@ include('layout/admin/user_session_data.php');
                                                                             <script>
                                                                                 $('#btnSearchClient<?php echo $id_map;?>').click(function() {
                                                                                     var car_plate = $('#carPlate<?php echo $id_map;?>').val();
+                                                                                    var id_map = "<?php echo $id_map;?>";
                                                                                     if (car_plate == "") {
                                                                                         alert('You must enter car plate field');
                                                                                         $('#carPlate<?php echo $id_map;?>').focus();
                                                                                     }else{
                                                                                         var url = 'clients/controller_search_clients.php';
-                                                                                        $.get(url, {car_plate:car_plate}, function (datos) {
+                                                                                        $.get(url, {car_plate:car_plate, id_map:id_map}, function (datos) {
                                                                                             $('#researchResponse<?php echo $id_map;?>').html(datos);
                                                                                         });
                                                                                     }
@@ -131,10 +132,27 @@ include('layout/admin/user_session_data.php');
                                                                             var e_date = $('#dateEntry<?php echo $id_map;?>').val();
                                                                             var e_time = $('#timeEntry<?php echo $id_map;?>').val();
                                                                             var s_number = $('#spot<?php echo $id_map?>').val();
-
-                                                                            alert(car_plate+' - '+s_number);
+                                                                            var u_session = "<?php echo $user_session?>";
+                                                                            if (car_plate == "") {
+                                                                                alert("Empty required fields");
+                                                                                $('#carPlate<?php echo $id_map;?>').focus();
+                                                                            }else if (c_name == "") {
+                                                                                alert("Empty required fields");
+                                                                                $('#c_name<?php echo $id_map;?>').focus();
+                                                                            }else if (c_tin == "") {
+                                                                                alert("Empty required fields");
+                                                                                $('#c_tin<?php echo $id_map;?>').focus();
+                                                                            }else{
+                                                                                var url = 'tickets/controller_registerT.php';
+                                                                                $.get(url, {car_plate:car_plate, c_name:c_name, c_tin:c_tin, e_date:e_date, e_time:e_time, s_number:s_number, u_session:u_session}, function (datos) {
+                                                                                    $('#response_ticket').html(datos);
+                                                                                });
+                                                                            }
                                                                         });
                                                                     </script>
+                                                                </div>
+                                                                <div id="response_ticket">
+
                                                                 </div>
                                                             </div>
                                                         </div>

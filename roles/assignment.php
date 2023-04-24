@@ -78,7 +78,7 @@ include('../layout/admin/user_session_data.php');
                                                                             <div class="form-group">
                                                                                 <label for="">Email</label>
                                                                                 <input type="text" class="form-control" value="<?php echo $email;?>" readonly>
-                                                                                <input type="text" name="id_user" value="<?php echo $email;?>" hidden>
+                                                                                <input type="text" name="id_user" value="<?php echo $id;?>" hidden>
                                                                             </div>
                                                                         </div>
                                                                     </div>

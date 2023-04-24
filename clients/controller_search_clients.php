@@ -2,7 +2,7 @@
 
 include('../app/config.php');
 $car_plate = $_GET['car_plate'];
-
+$id_map = $_GET['id_map'];
 $car_plate = strtoupper($car_plate);
 
 $id_client = "";
@@ -20,13 +20,13 @@ foreach ($clients as $client) {
 if ($nombre_client == "") {
     ?>
     <div class="form-group row">
-        <label for="staticEmail" class="col-sm-3 col-form-label">Client Name:</label>
+        <label for="staticEmail" class="col-sm-3 col-form-label">Client Name: <span><b style="color: red">*</b></span></label>
         <div class="col-sm-9">
             <input type="text" class="form-control" id="c_name<?php echo $id_map;?>">
         </div>
     </div>
     <div class="form-group row">
-        <label for="staticEmail" class="col-sm-3 col-form-label">TIN:</label>
+        <label for="staticEmail" class="col-sm-3 col-form-label">TIN: <span><b style="color: red">*</b></span></label>
         <div class="col-sm-9">
             <input type="text" class="form-control" id="c_tin<?php echo $id_map;?>">
         </div>
@@ -35,13 +35,13 @@ if ($nombre_client == "") {
 }else {
     ?>
     <div class="form-group row">
-        <label for="staticEmail" class="col-sm-3 col-form-label">Client Name:</label>
+        <label for="staticEmail" class="col-sm-3 col-form-label">Client Name: <span><b style="color: red">*</b></span></label>
         <div class="col-sm-9">
             <input type="text" class="form-control"  id="c_name<?php echo $id_map;?>" value="<?php echo $nombre_client?>" readonly>
         </div>
     </div>
     <div class="form-group row">
-        <label for="staticEmail" class="col-sm-3 col-form-label">TIN:</label>
+        <label for="staticEmail" class="col-sm-3 col-form-label">TIN: <span><b style="color: red">*</b></span></label>
         <div class="col-sm-9">
             <input type="text" class="form-control" id="c_tin<?php echo $id_map;?>" value="<?php echo $nit_client?>" readonly>
         </div>
