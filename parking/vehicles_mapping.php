@@ -34,7 +34,7 @@ include('../layout/admin/user_session_data.php');
                                     <td><?php echo $num_spot;?></td>
                                     <td>
                                         <center>
-                                            <a href="delete.php?id=<?php echo $id_rol;?>" class="btn btn-danger">Delete</a>
+                                            <a href="delete.php?id=<?php echo $id_map;?>" class="btn btn-danger">Delete</a>
                                         </center>
                                     </td>
                                 </tr>
