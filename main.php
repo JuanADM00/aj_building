@@ -145,8 +145,14 @@ include('layout/admin/user_session_data.php');
                                                                             }else{
                                                                                 var url_s = 'parking/spot_controller.php';
                                                                                 $.get(url_s, {s_number:s_number}, function (datos) {
-                                                                                    alert("OK");
+                                                                                    $('#response_spot').html(datos);
                                                                                 });
+                                                                                
+                                                                                var url_c = 'clients/controller_register_clients.php';
+                                                                                $.get(url_c, {c_name:c_name, c_tin:c_tin, car_plate:car_plate}, function (datos) {
+                                                                                    $('#response_client').html(datos);
+                                                                                });
+
                                                                                 var url_t = 'tickets/controller_registerT.php';
                                                                                 $.get(url_t, {car_plate:car_plate, c_name:c_name, c_tin:c_tin, e_date:e_date, e_time:e_time, s_number:s_number, u_session:u_session}, function (datos) {
                                                                                     $('#response_ticket').html(datos);
@@ -155,9 +161,9 @@ include('layout/admin/user_session_data.php');
                                                                         });
                                                                     </script>
                                                                 </div>
-                                                                <div id="response_ticket">
-
-                                                                </div>
+                                                                <div id="response_spot"></div>
+                                                                <div id="response_client"></div>
+                                                                <div id="response_ticket"></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -169,10 +175,85 @@ include('layout/admin/user_session_data.php');
                                             <div class="col">
                                                 <center>
                                                     <h2><?php echo $num_spot;?></h2>
-                                                    <button class="btn btn-danger">
+                                                    <button class="btn btn-danger" id="btn_filled<?php echo $id_map;?>" data-toggle="modal" data-target="#exampleModal<?php echo $id_map;?>">
                                                         <img src="<?php echo $URL?>/public/assets/car.png" alt="" width="60px">
                                                     </button>
-                                                    
+                                                    <?php
+
+                                                    $query_data = $pdo->prepare("SELECT * FROM tb_tickets WHERE S_NUMBER = '$num_spot' ORDER BY ID_TICKET DESC LIMIT 1");
+                                                    $query_data->execute();
+                                                    $o_tickets = $query_data->fetchAll(PDO::FETCH_ASSOC);
+                                                    foreach ($o_tickets as $o_ticket) {
+                                                        $id_ticket = $o_ticket['ID_TICKET'];
+                                                        $car_plate = $o_ticket['CAR_PLATE'];
+                                                        $c_name = $o_ticket['C_NAME'];
+                                                        $c_tin = $o_ticket['C_TIN'];
+                                                        $e_date = $o_ticket['ENTRY_DATE'];
+                                                        $e_time = $o_ticket['ENTRY_TIME'];
+                                                    }?>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="exampleModal<?php echo $id_map;?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Client Data</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="form-group row">
+                                                                        <label for="staticEmail" class="col-sm-3 col-form-label">Car plate:</label>
+                                                                        <div class="col-sm-9">
+                                                                            <input type="text" style="text-transform: uppercase" class="form-control" id="carPlate<?php echo $id_map;?>" value="<?php echo $car_plate?>" readonly>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="form-group row">
+                                                                        <label for="staticEmail" class="col-sm-3 col-form-label">Client Name:</label>
+                                                                        <div class="col-sm-9">
+                                                                            <input type="text" class="form-control" id="c_name<?php echo $id_map;?>" value ="<?php echo $c_name?>" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label for="staticEmail" class="col-sm-3 col-form-label">TIN:</label>
+                                                                        <div class="col-sm-9">
+                                                                            <input type="text" class="form-control" id="c_tin<?php echo $id_map;?>" value ="<?php echo $c_tin?>" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label for="staticEmail" class="col-sm-3 col-form-label">Entry Date:</label>
+                                                                        <div class="col-sm-9">
+                                                                            <input type="date" class="form-control" id="dateEntry<?php echo $id_map;?>" value ="<?php echo $e_date?>" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        <label for="staticEmail" class="col-sm-3 col-form-label">Entry Time:</label>
+                                                                        <div class="col-sm-9">
+                                                                            <input type="time" class="form-control" id="timeEntry<?php echo $id_map;?>" value ="<?php echo $e_time?>" readonly>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="form-group row">
+                                                                        <label for="staticEmail" class="col-sm-3 col-form-label">Spot Number:</label>
+                                                                        <div class="col-sm-9">
+                                                                            <input type="text" class="form-control" id="spot<?php echo $id_map;?>" value ="<?php echo $num_spot?>" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                                    <button type="button" class="btn btn-primary">Print ticket again</button>
+                                                                    <button type="button" class="btn btn-success">Invoice</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <script>
+                                                        $('#btn_filled<?php echo $id_map;?>').click(function () {
+                                                            //
+                                                        });
+                                                    </script>
                                                 </center>
                                             </div>
                                             <?php

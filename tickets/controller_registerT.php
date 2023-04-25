@@ -3,6 +3,7 @@
 include('../app/config.php');
 
 $car_plate = $_GET['car_plate'];
+$car_plate = strtoupper($car_plate);
 $c_name = $_GET['c_name'];
 $c_tin = $_GET['c_tin'];
 $e_date = $_GET['e_date'];
