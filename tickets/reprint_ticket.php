@@ -19,7 +19,9 @@ foreach ($infos as $info) {
     $b_tel = $info['B_TEL'];
 }
 
-$query_tickets = $pdo->prepare("SELECT * FROM tb_tickets ORDER BY ID_TICKET DESC LIMIT 1");
+//Loading data based on ID
+$id_ticket_get = $_GET['id'];
+$query_tickets = $pdo->prepare("SELECT * FROM tb_tickets WHERE ID_TICKET = '$id_ticket_get'");
 $query_tickets->execute();
 $tickets = $query_tickets->fetchAll(PDO::FETCH_ASSOC);
 foreach ($tickets as $ticket) {

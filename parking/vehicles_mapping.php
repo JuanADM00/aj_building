@@ -18,7 +18,7 @@ include('../layout/admin/user_session_data.php');
                         <table class="table table-bordered table-sn table-striped">
                             <th><center>Number</center></th>
                             <th>Space Number</th>
-                            <th><center>State</center></th>
+                            <th><center>Action</center></th>
                             <?php
                             $counter = 0;
                             $query_mapping = $pdo->prepare("SELECT ID_MAP, NUM_SPOT FROM tb_mappings WHERE AVAILABLE = 1");

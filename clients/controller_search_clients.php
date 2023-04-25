@@ -48,4 +48,21 @@ if ($nombre_client == "") {
     </div>
     <?php
 }
+//Searching car plate into tickets BD table
+$query_tickets = $pdo->prepare("SELECT * FROM tb_tickets WHERE CAR_PLATE = '$car_plate' AND T_STATE = 'FILLED'");
+$query_tickets->execute();
+$tickets_data = $query_tickets->fetchAll(PDO::FETCH_ASSOC);
+if (!empty($tickets_data)) {
+    ?><div class="alert alert-danger">This vehicle is currently parked</div>
+    <script>
+        $('#btnPrintTicket<?php echo $id_map?>').attr('disabled', 'disabled');
+    </script>
+    <?php
+}else {
+    ?><div class="alert alert-info">No problem</div>
+    <script>
+        $('#btnPrintTicket<?php echo $id_map?>').removeAttr('disabled');
+    </script>
+    <?php
+}
 ?>

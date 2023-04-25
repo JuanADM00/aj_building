@@ -242,18 +242,14 @@ include('layout/admin/user_session_data.php');
                                                                     </div>
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                                    <button type="button" class="btn btn-primary">Print ticket again</button>
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                    <a href="tickets/controller_cancelT.php?id=<?php echo $id_ticket;?>&&spot=<?php echo $num_spot;?>" class="btn btn-danger">Cancel ticket</a>
+                                                                    <a href="tickets/reprint_ticket.php?id=<?php echo $id_ticket;?>" class="btn btn-primary">Print ticket again</a>
                                                                     <button type="button" class="btn btn-success">Invoice</button>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <script>
-                                                        $('#btn_filled<?php echo $id_map;?>').click(function () {
-                                                            //
-                                                        });
-                                                    </script>
                                                 </center>
                                             </div>
                                             <?php
