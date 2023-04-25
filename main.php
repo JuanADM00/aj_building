@@ -132,7 +132,7 @@ include('layout/admin/user_session_data.php');
                                                                             var e_date = $('#dateEntry<?php echo $id_map;?>').val();
                                                                             var e_time = $('#timeEntry<?php echo $id_map;?>').val();
                                                                             var s_number = $('#spot<?php echo $id_map?>').val();
-                                                                            var u_session = "<?php echo $user_session?>";
+                                                                            var u_session = "<?php echo $nombres_session?>";
                                                                             if (car_plate == "") {
                                                                                 alert("Empty required fields");
                                                                                 $('#carPlate<?php echo $id_map;?>').focus();
@@ -143,8 +143,12 @@ include('layout/admin/user_session_data.php');
                                                                                 alert("Empty required fields");
                                                                                 $('#c_tin<?php echo $id_map;?>').focus();
                                                                             }else{
-                                                                                var url = 'tickets/controller_registerT.php';
-                                                                                $.get(url, {car_plate:car_plate, c_name:c_name, c_tin:c_tin, e_date:e_date, e_time:e_time, s_number:s_number, u_session:u_session}, function (datos) {
+                                                                                var url_s = 'parking/spot_controller.php';
+                                                                                $.get(url_s, {s_number:s_number}, function (datos) {
+                                                                                    alert("OK");
+                                                                                });
+                                                                                var url_t = 'tickets/controller_registerT.php';
+                                                                                $.get(url_t, {car_plate:car_plate, c_name:c_name, c_tin:c_tin, e_date:e_date, e_time:e_time, s_number:s_number, u_session:u_session}, function (datos) {
                                                                                     $('#response_ticket').html(datos);
                                                                                 });
                                                                             }

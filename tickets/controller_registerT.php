@@ -25,7 +25,7 @@ $statement->bindParam(':u_session',$u_session);
 if ($statement->execute()) {
     echo "Successful Insertion";
     ?>
-    <script>location.href = "<?php echo $URL?>/main.php";</script>
+    <script>location.href = "tickets/generate_ticket.php";</script>
     <?php 
 }else {
     echo "Failed Insertion";
