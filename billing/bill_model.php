@@ -18,13 +18,13 @@ foreach ($infos as $info) {
     $b_tel = $info['B_TEL'];
 }
 // create new PDF document
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, array(79,80), true, 'UTF-8', false);
+$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, array(79,160), true, 'UTF-8', false);
 
 // set document information
 $pdf->setCreator(PDF_CREATOR);
-$pdf->setAuthor('Nicola Asuni');
-$pdf->setTitle('TCPDF Example 002');
-$pdf->setSubject('TCPDF Tutorial');
+$pdf->setAuthor('AJ-Building');
+$pdf->setTitle('Parking System');
+$pdf->setSubject('Parking System');
 $pdf->setKeywords('TCPDF, PDF, example, test, guide');
 
 // remove default header/footer
@@ -66,17 +66,42 @@ $html = '
         '.$b_address.'<br>
         '.$b_department.' - '.$b_nation.'<br>
         Tel. '.$b_tel.'
+        <p style="text-align: left">-----------------------------------------------------------------------------------</p>
+        <center><b>BILL NO.</b>0000001</center>
         <div style="text-align: left">
             -----------------------------------------------------------------------------------<br>
             <b>CLIENT DATA</b><br>
             <b>MR/MS: </b>ANDREW CUNANAN<br>
             <b>TIN: </b>123456789<br>
+            <b>BILL DATE: </b>Floridablanca, 25 April 2023
             -----------------------------------------------------------------------------------<br>
-            <b>ENTRY DATE: </b>26/09/2022<br>
-            <b>ENTRY TIME: </b>18:00<br>
-            <b>SPOT NUMBER: </b>35<br>
+            <b>From: </b>25/04/2023 <b>Time: </b>18:00<br>
+            <b>To: </b>25/04/2023 <b>Time: </b>20:00<br>
+            <b>Time spent: </b>2 hours<br>
+            <b>SPOT NUMBER: </b>35
+            -----------------------------------------------------------------------------------<br>
+            <table border="1" cellpadding="2">
+                <tr>
+                    <td style="text-align: center" width="77px"><b>Detail</b></td>
+                    <td style="text-align: center" width="55px"><b>Price</b></td>
+                    <td style="text-align: center" width="45px"><b>Quantity</b></td>
+                    <td style="text-align: center" width="55px"><b>Total</b></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center">2 hours parking service</td>
+                    <td style="text-align: center">6000 COP</td>
+                    <td style="text-align: center">1 vehicle</td>
+                    <td style="text-align: center">6000 COP</td>
+                </tr>
+            </table>
+            <p style="text-align: right"><b>Total Amount:</b> 6000 COP</p>
+            <p style="text-align: left">Six thousand <b>Colombian pesos</b></p>
             -----------------------------------------------------------------------------------<br>
             <b>USER: </b>JUAN AMAYA DUARTE
+            <p style="text-align: center">
+                <img src="https://static.vecteezy.com/system/resources/previews/002/557/391/original/qr-code-for-scanning-free-vector.jpg" width="100px">
+                <h5>A esta factura de venta aplican las normas relativas a la letra de cambio (artículo 5 Ley 1231 de 2008). Con esta, el comprador declara haber recibido real y materialmente las mercancías o prestación de servicios descritos en este título.</h5>
+            </p>
         </div>
     </p>
 </div>
