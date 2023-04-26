@@ -2,6 +2,22 @@
 
 include('app/config.php');
 include('layout/admin/user_session_data.php');
+
+//Retrieving ID_INFO
+$query_infos = $pdo->prepare("SELECT ID_INFO FROM tb_infos");
+$query_infos->execute();
+$infos = $query_infos->fetchAll(PDO::FETCH_ASSOC);
+foreach ($infos as $info) {
+    $id_info = $info['ID_INFO'];
+}
+
+
+/*Retrieving bill number
+$counter_bn = -1;
+$query_bills = $pdo->prepare("SELECT COUNT(ID_BILL) FROM tb_billing");
+$query_bills->execute();
+$counter_bn = $query_bills->fetchColumn();
+$counter_bn = $counter_bn + 1;*/
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -245,8 +261,33 @@ include('layout/admin/user_session_data.php');
                                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                                     <a href="tickets/controller_cancelT.php?id=<?php echo $id_ticket;?>&&spot=<?php echo $num_spot;?>" class="btn btn-danger">Cancel ticket</a>
                                                                     <a href="tickets/reprint_ticket.php?id=<?php echo $id_ticket;?>" class="btn btn-primary">Print ticket again</a>
-                                                                    <button type="button" class="btn btn-success">Invoice</button>
+                                                                    <button type="button" class="btn btn-success" id="btnInvoice<?php echo $id_map;?>">Invoice</button>
+                                                                    <?php
+                                                                    //Retrieving ID_CLIENT
+                                                                    $query_clients = $pdo->prepare("SELECT ID_CLIENT FROM tb_clients WHERE CAR_PLATE = '$car_plate'");
+                                                                    $query_clients->execute();
+                                                                    $clients = $query_clients->fetchAll(PDO::FETCH_ASSOC);
+                                                                    foreach ($clients as $client) {
+                                                                        $id_client = $client['ID_CLIENT'];
+                                                                    }
+                                                                    //////////?>
+                                                                    <script>
+                                                                        $('#btnInvoice<?php echo $id_map;?>').click(function () {
+                                                                            var id_info = "<?php echo $id_info?>";
+                                                                            var id_client = "<?php echo $id_client?>";
+                                                                            var entry_date = "<?php echo $e_date?>";
+                                                                            var entry_time = "<?php echo $e_time?>";
+                                                                            var num_spot = "<?php echo $num_spot?>";
+                                                                            var u_session = "<?php echo $nombres_session?>";
+
+                                                                            var url_b = 'billing/controller_register_bill.php';
+                                                                            $.get(url_b, {id_info:id_info, id_client:id_client, entry_date:entry_date, entry_time:entry_time, num_spot:num_spot, u_session:u_session}, function (datos) {
+                                                                                $('#response_billing<?php echo $id_map;?>').html(datos);
+                                                                            });
+                                                                        });
+                                                                    </script>
                                                                 </div>
+                                                                <div id="response_billing<?php echo $id_map;?>"></div>
                                                             </div>
                                                         </div>
                                                     </div>
