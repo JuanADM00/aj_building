@@ -17,6 +17,46 @@ foreach ($infos as $info) {
     $b_nation = $info['B_NATION'];
     $b_tel = $info['B_TEL'];
 }
+//Retrieving invoice data
+$query_invoices = $pdo->prepare("SELECT * FROM tb_billing");
+$query_invoices->execute();
+$invoices = $query_invoices->fetchAll(PDO::FETCH_ASSOC);
+foreach ($invoices as $invoice) {
+    $id_invoice = $invoice['ID_BILL'];
+    $id_info_invoice = $invoice['ID_INFO'];
+    $id_client_invoice = $invoice['ID_CLIENT'];			
+    $date_invoice = $invoice['BILL_DATE'];
+    $entry_date_invoice = $invoice['ENTRY_DATE'];
+    $exit_date_invoice = $invoice['EXIT_DATE'];
+    $entry_time_invoice = $invoice['ENTRY_TIME'];
+    $exit_time_invoice = $invoice['EXIT_TIME'];
+    $s_number_invoice = $invoice['S_NUMBER'];
+    $detail_invoice = $invoice['DETAIL'];
+    $price_invoice = $invoice['PRICE'];
+    $amount_invoice = $invoice['AMOUNT'];
+    $total_invoice = $invoice['TOTAL'];
+    $total_amount_invoice = $invoice['TOTAL_AMOUNT'];
+    $u_session_invoice = $invoice['U_SESSION'];
+    $qr_invoice = $invoice['QR'];
+}
+$time_spent = substr($detail_invoice, 0, -16);
+
+//Retrieving client data
+$query_clients = $pdo->prepare("SELECT FULLNAME_CLIENT, TIN_CLIENT, CAR_PLATE FROM tb_clients WHERE ID_CLIENT = '$id_client_invoice'");
+$query_clients->execute();
+$clients = $query_clients->fetchAll(PDO::FETCH_ASSOC);
+foreach ($clients as $client) {
+    $c_fullname = $client['FULLNAME_CLIENT'];
+    $c_tin = $client['TIN_CLIENT'];
+    $car_plate = $client['CAR_PLATE'];
+}
+//Retrieving client data
+$query_prices = $pdo->prepare("SELECT CURRENCY FROM tb_prices WHERE P_VALUE = '$price_invoice'");
+$query_prices->execute();
+$prices = $query_prices->fetchAll(PDO::FETCH_ASSOC);
+foreach ($prices as $price) {
+    $currency = $price['CURRENCY'];
+}
 // create new PDF document
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, array(79,160), true, 'UTF-8', false);
 
@@ -67,18 +107,18 @@ $html = '
         '.$b_department.' - '.$b_nation.'<br>
         Tel. '.$b_tel.'
         <p style="text-align: left">-----------------------------------------------------------------------------------</p>
-        <center><b>BILL NO.</b>0000001</center>
+        <center><b>INVOICE NO.</b>'.$id_invoice.'</center>
         <div style="text-align: left">
             -----------------------------------------------------------------------------------<br>
             <b>CLIENT DATA</b><br>
-            <b>MR/MS: </b>ANDREW CUNANAN<br>
-            <b>TIN: </b>123456789<br>
-            <b>BILL DATE: </b>Floridablanca, 25 April 2023
+            <b>MR/MS: </b>'.$c_fullname.'<br>
+            <b>TIN: </b>'.$c_tin.'<br>
+            <b>BILL DATE: </b>'.$b_department.', '.$date_invoice.'
             -----------------------------------------------------------------------------------<br>
-            <b>From: </b>25/04/2023 <b>Time: </b>18:00<br>
-            <b>To: </b>25/04/2023 <b>Time: </b>20:00<br>
-            <b>Time spent: </b>2 hours<br>
-            <b>SPOT NUMBER: </b>35
+            <b>From: </b>'.$entry_date_invoice.'<b> Time: </b>'.$entry_time_invoice.'<br>
+            <b>To: </b>'.$exit_date_invoice.'<b> Time: </b>'.$exit_time_invoice.'<br>
+            <b>Time spent: </b>'.$time_spent.'<br>
+            <b>SPOT NUMBER: </b>'.$s_number_invoice.'
             -----------------------------------------------------------------------------------<br>
             <table border="1" cellpadding="2">
                 <tr>
@@ -88,15 +128,15 @@ $html = '
                     <td style="text-align: center" width="55px"><b>Total</b></td>
                 </tr>
                 <tr>
-                    <td style="text-align: center">2 hours parking service</td>
-                    <td style="text-align: center">6000 COP</td>
-                    <td style="text-align: center">1 vehicle</td>
-                    <td style="text-align: center">6000 COP</td>
+                    <td style="text-align: center">'.$detail_invoice.'</td>
+                    <td style="text-align: center">'.$price_invoice.' '.$currency.'</td>
+                    <td style="text-align: center">'.$amount_invoice.' vehicle</td>
+                    <td style="text-align: center">'.$total_invoice.' '.$currency.'</td>
                 </tr>
             </table>
-            <p style="text-align: right"><b>Total Amount:</b> 6000 COP</p>
+            <p style="text-align: right"><b>Total Amount:</b>'.$total_amount_invoice.' '.$currency.'</p>
             -----------------------------------------------------------------------------------<br>
-            <b>USER: </b>JUAN AMAYA DUARTE<br><br><br><br><br><br><br><br><br><br><br>
+            <b>USER: </b>'.$u_session_invoice.'<br><br><br><br><br><br><br><br><br><br><br>
             <p style="text-align: center">
                 <h5>A esta factura de venta aplican las normas relativas a la letra de cambio (artículo 5 Ley 1231 de 2008). Con esta, el comprador declara haber recibido real y materialmente las mercancías o prestación de servicios descritos en este título.</h5>
             </p>
@@ -119,11 +159,10 @@ $style = array(
 );
 
 // QRCODE,L : QR-CODE Low error correction
-$QR = 'www.ajbuilding.com';
-$pdf->write2DBarcode($QR, 'QRCODE,L', 22, 110, 35, 35, $style);
+$pdf->write2DBarcode($qr_invoice, 'QRCODE,L', 22, 110, 35, 35, $style);
 
 //Close and output PDF document
-$pdf->Output('example_002.pdf', 'I');
+$pdf->Output('Invoice.pdf', 'I');
 
 //============================================================+
 // END OF FILE
