@@ -9,3 +9,6 @@
   <link rel="stylesheet" href="<?php echo $URL;?>/app/templates/AdminLTE-3.2.0/dist/css/adminlte.min.css">
   <!-- jQuery -->
   <script src="<?php echo $URL;?>/app/templates/AdminLTE-3.2.0/plugins/jquery/jquery.min.js"></script>
+  <!-- DataTables -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>

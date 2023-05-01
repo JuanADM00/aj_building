@@ -24,42 +24,72 @@ include('../layout/admin/user_session_data.php');
                                     </button>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <table class="table table-bordered table-sn table-striped">
-                                    <th><center>Number</center></th>
-                                    <th><center>Amount</center></th>
-                                    <th><center>Detail</center></th>
-                                    <th><center>Price</center></th>
-                                    <th><center>Currency</center></th>
-                                    <th><center>Actions</center></th>
-                                    <?php
-                                    $counter = 0;
-                                    $query_prices = $pdo->prepare("SELECT * FROM tb_prices");
-                                    $query_prices->execute();
-                                    $prices = $query_prices->fetchAll(PDO::FETCH_ASSOC);
-                                    foreach ($prices as $price) {
-                                        $id_price = $price['ID_PRICE'];
-                                        $amount = $price['AMOUNT'];
-                                        $detail = $price['DETAIL'];
-                                        $p_value = $price['P_VALUE'];
-                                        $currency = $price['CURRENCY'];
-                                        $counter = $counter + 1;
-                                        ?>
-                                        <tr>
-                                            <td><center><?php echo $counter;?></center></td>
-                                            <td><center><?php echo $amount;?></center></td>
-                                            <td><center><?php echo $detail;?></center></td>
-                                            <td><center><?php echo $p_value;?></center></td>
-                                            <td><center><?php echo $currency;?></center></td>
-                                            <td>
-                                                <center>
-                                                    <a href="update.php?id=<?php echo $id_price;?>" class="btn btn-success">Update</a>
-                                                </center>
-                                            </td>
-                                        </tr>
-                                        <?php
+                            <script>
+                            $(document).ready(function() {
+                                $('#table_id').DataTable( {
+                                    "pageLength": 5,
+                                    "language": {
+                                        "emptyTable": "No info",
+                                        "info": "Showing _START_ to _END_ of _TOTAL_ Prices",
+                                        "infoEmpty": "Showing 0 to 0 of 0 Prices",
+                                        "infoFiltered": "(_MAX_ Total Prices Filtering)",
+                                        "infoPostFix": "",
+                                        "thousands": ",",
+                                        "lengthMenu": "Show _MENU_ Prices",
+                                        "loadingRecords": "Loading...",
+                                        "processing": "Processing...",
+                                        "search": "Search:",
+                                        "zeroRecords": "No results found",
+                                        "paginate": {
+                                            "first": "First",
+                                            "last": "Last",
+                                            "next": "Next",
+                                            "previous": "Previous"
+                                        }
                                     }
-                                    ?>
+                                });
+                            });
+                            </script>
+                            <div class="card-body">
+                                <table id="table_id" class="table table-bordered table-sn table-striped">
+                                    <thead>
+                                        <th><center>Number</center></th>
+                                        <th><center>Amount</center></th>
+                                        <th><center>Detail</center></th>
+                                        <th><center>Price</center></th>
+                                        <th><center>Currency</center></th>
+                                        <th><center>Actions</center></th>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $counter = 0;
+                                        $query_prices = $pdo->prepare("SELECT * FROM tb_prices");
+                                        $query_prices->execute();
+                                        $prices = $query_prices->fetchAll(PDO::FETCH_ASSOC);
+                                        foreach ($prices as $price) {
+                                            $id_price = $price['ID_PRICE'];
+                                            $amount = $price['AMOUNT'];
+                                            $detail = $price['DETAIL'];
+                                            $p_value = $price['P_VALUE'];
+                                            $currency = $price['CURRENCY'];
+                                            $counter = $counter + 1;
+                                            ?>
+                                            <tr>
+                                                <td><center><?php echo $counter;?></center></td>
+                                                <td><center><?php echo $amount;?></center></td>
+                                                <td><center><?php echo $detail;?></center></td>
+                                                <td><center><?php echo $p_value;?></center></td>
+                                                <td><center><?php echo $currency;?></center></td>
+                                                <td>
+                                                    <center>
+                                                        <a href="update.php?id=<?php echo $id_price;?>" class="btn btn-success">Update</a>
+                                                    </center>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                        }
+                                        ?>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>

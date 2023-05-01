@@ -13,34 +13,64 @@ include('../layout/admin/user_session_data.php');
             <div class="container">
                 <h2>Parking Spots</h2>
                 <br>
+                <script>
+                    $(document).ready(function() {
+                    $('#table_id').DataTable( {
+                        "pageLength": 5,
+                        "language": {
+                            "emptyTable": "No info",
+                            "info": "Showing _START_ to _END_ of _TOTAL_ Spots",
+                            "infoEmpty": "Showing 0 to 0 of 0 Spots",
+                            "infoFiltered": "(_MAX_ Total Spots Filtering)",
+                            "infoPostFix": "",
+                            "thousands": ",",
+                            "lengthMenu": "Show _MENU_ Spots",
+                            "loadingRecords": "Loading...",
+                            "processing": "Processing...",
+                            "search": "Search:",
+                            "zeroRecords": "No results found",
+                            "paginate": {
+                                "first": "First",
+                                "last": "Last",
+                                "next": "Next",
+                                "previous": "Previous"
+                            }
+                        }
+                    });
+                });
+                </script>
                 <div class="row">
                     <div class="col-md-6">
-                        <table class="table table-bordered table-sn table-striped">
-                            <th><center>Number</center></th>
-                            <th>Space Number</th>
-                            <th><center>Action</center></th>
-                            <?php
-                            $counter = 0;
-                            $query_mapping = $pdo->prepare("SELECT ID_MAP, NUM_SPOT FROM tb_mappings WHERE AVAILABLE = 1");
-                            $query_mapping->execute();
-                            $mappings = $query_mapping->fetchAll(PDO::FETCH_ASSOC);
-                            foreach ($mappings as $mapping) {
-                                $id_map = $mapping['ID_MAP'];
-                                $num_spot = $mapping['NUM_SPOT'];
-                                $counter = $counter + 1;
-                                ?>
-                                <tr>
-                                    <td><center><?php echo $counter;?></center></td>
-                                    <td><?php echo $num_spot;?></td>
-                                    <td>
-                                        <center>
-                                            <a href="delete.php?id=<?php echo $id_map;?>" class="btn btn-danger">Delete</a>
-                                        </center>
-                                    </td>
-                                </tr>
+                        <table id="table_id" class="table table-bordered table-sn table-striped">
+                            <thead>
+                                <th><center>Number</center></th>
+                                <th>Space Number</th>
+                                <th><center>Action</center></th>
+                            </thead>
+                            <tbody>
                                 <?php
-                            }
-                            ?>
+                                $counter = 0;
+                                $query_mapping = $pdo->prepare("SELECT ID_MAP, NUM_SPOT FROM tb_mappings WHERE AVAILABLE = 1");
+                                $query_mapping->execute();
+                                $mappings = $query_mapping->fetchAll(PDO::FETCH_ASSOC);
+                                foreach ($mappings as $mapping) {
+                                    $id_map = $mapping['ID_MAP'];
+                                    $num_spot = $mapping['NUM_SPOT'];
+                                    $counter = $counter + 1;
+                                    ?>
+                                    <tr>
+                                        <td><center><?php echo $counter;?></center></td>
+                                        <td><?php echo $num_spot;?></td>
+                                        <td>
+                                            <center>
+                                                <a href="delete.php?id=<?php echo $id_map;?>" class="btn btn-danger">Delete</a>
+                                            </center>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                                ?>
+                            </tbody>
                         </table>
                     </div>
                 </div>
