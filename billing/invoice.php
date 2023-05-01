@@ -50,7 +50,7 @@ foreach ($clients as $client) {
     $c_tin = $client['TIN_CLIENT'];
     $car_plate = $client['CAR_PLATE'];
 }
-//Retrieving client data
+//Retrieving prices data
 $query_prices = $pdo->prepare("SELECT CURRENCY FROM tb_prices WHERE P_VALUE = '$price_invoice'");
 $query_prices->execute();
 $prices = $query_prices->fetchAll(PDO::FETCH_ASSOC);
@@ -159,7 +159,7 @@ $style = array(
 );
 
 // QRCODE,L : QR-CODE Low error correction
-$pdf->write2DBarcode($qr_invoice, 'QRCODE,L', 22, 110, 35, 35, $style);
+$pdf->write2DBarcode($qr_invoice, 'QRCODE,L', 22, 115, 35, 35, $style);
 
 //Close and output PDF document
 $pdf->Output('Invoice.pdf', 'I');

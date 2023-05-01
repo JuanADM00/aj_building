@@ -87,9 +87,20 @@ $statement->bindParam(':TOTAL_AMOUNT',$p_value);
 $statement->bindParam(':U_SESSION',$u_session);
 $statement->bindParam(':QR',$QR);
 if($statement->execute()){
-    echo "Successful Action";?>
-    <script>location.href = "billing/invoice.php";</script>
-    <?php
+    $statement = $pdo->prepare("UPDATE tb_mappings SET FREE = 1 WHERE NUM_SPOT = :NUM_SPOT");
+
+    $statement->bindParam(":NUM_SPOT", $num_spot);
+
+    $statement2 = $pdo->prepare("UPDATE tb_tickets SET T_STATE = 'INVOICED' WHERE S_NUMBER = :S_NUMBER");
+    $statement2->bindParam(":S_NUMBER", $num_spot);
+    if ($statement->execute() && $statement2->execute()) {
+        echo "Successful Action";
+        ?>
+        <script>location.href = "billing/invoice.php";</script>
+        <?php
+    } else {
+        echo "Failed Update";
+    }
 }else{
     echo 'Failed Action';
 }
