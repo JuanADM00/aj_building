@@ -91,7 +91,7 @@ if($statement->execute()){
 
     $statement->bindParam(":NUM_SPOT", $num_spot);
 
-    $statement2 = $pdo->prepare("UPDATE tb_tickets SET T_STATE = 'INVOICED' WHERE S_NUMBER = :S_NUMBER");
+    $statement2 = $pdo->prepare("UPDATE tb_tickets SET T_STATE = 'INVOICED' WHERE S_NUMBER = :S_NUMBER AND T_STATE = 'FILLED'");
     $statement2->bindParam(":S_NUMBER", $num_spot);
     if ($statement->execute() && $statement2->execute()) {
         echo "Successful Action";
@@ -104,5 +104,4 @@ if($statement->execute()){
 }else{
     echo 'Failed Action';
 }
-
 ?>
