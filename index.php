@@ -8,7 +8,7 @@
     <link rel= "stylesheet" href="public\css\bootstrap.min.css">
     <style>
     </style>
-    <title>Document</title>
+    <title>AJ-Building</title>
 </head>
 <body style= "background-image: url('public/assets/asphalt.jpg');
             background-repeat: no-repeat;
@@ -17,7 +17,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
-        <img src="" alt="AJ-BUILDING" width="30" height="24">
+        <img src="<?php echo $URL?>/public/assets/car.png" alt="AJ-BUILDING" width="19" height="30">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
